@@ -2,9 +2,11 @@ const form = document.querySelector('#form');
 const input = document.querySelector('#title');
 const list = document.querySelector('#list');
 // 처음 페이지 로딩시 로컬저장소에서 TASKS에 대한 데이터 호출
-let data = localStorage.getItem('TASKS');
+// let data = localStorage.getItem('TASKS');
 // 해당 데이터가 있으면 parsing해서 tasks배열에 저장, 없으면 빈배열
-let tasks = data ? JSON.parse(data) : [];
+// let tasks = data ? JSON.parse(data) : [];
+
+let tasks = JSON.parse(localStorage.getItem('TASKS')) || [];
 
 //tasks에 배열값을 반복출력 (만약 저장소에 값이 없으면 출력안됨)
 tasks.map((task) => addListItem(task));
@@ -23,13 +25,12 @@ form.addEventListener('submit', (e) => {
 		createAt: new Date(),
 	};
 	input.value = ''; // 기존 입력했던 값 비우기
+	list.innerHTML = '';
 
 	// 기존 배열에 할일 객체목록 추가
 	// tasks.push(newTask);
 	tasks = [newTask, ...tasks];
 
-	// console.log(tasks);
-	list.innerHTML = '';
 	// 새로운 객체가 만들어지면 저장소에 데이터를 집어넣고
 	localStorage.setItem('TASKS', JSON.stringify(tasks));
 	// tasks에 있는 배열값을 반복돌면서 목록 생성
